@@ -3,12 +3,12 @@
 # ------------------------------------------------------------------
 
 variable "lambda_function_name" {
-  description = "The name of the lamda function the API Gateway is created for."
+  description = "The name of the lambda function the API Gateway is created for."
   type        = string
 }
 
 variable "lambda_invoke_arn" {
-  description = "The arn (URI) of the lamda function the API Gateway is created for."
+  description = "The arn (URI) of the lambda function the API Gateway is created for."
   type        = string
 }
 
@@ -22,7 +22,7 @@ variable "apigw_name" {
   default     = "apigateway"
 }
 
-variable "appigw_description" {
+variable "apigw_description" {
   description = "Description of the API Gateway to be created."
   type        = string
   default     = "created by module alparius/apigateway-with-cors"
