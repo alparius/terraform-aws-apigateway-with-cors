@@ -1,3 +1,8 @@
+[![GitHub][github-image]][github-link]
+
+  [github-image]: https://img.shields.io/github/release/alparius/terraform-aws-apigateway-with-cors.svg
+  [github-link]: https://github.com/alparius/terraform-aws-apigateway-with-cors/releases
+
 # Terraform AWS API Gateway with CORS Enabled
 
 An opinionated Terraform module for the AWS provider, creating a CORS-enabled API Gateway for a Lambda function.
