@@ -1,0 +1,7 @@
+# Terraform runtime
+.terraform
+.terraform.tfstate.lock.info
+
+# Terraform state
+*.tfstate
+*.tfstate.backup

@@ -1,15 +1,14 @@
-[![GitHub][github-image]][github-link]
-
-  [github-link]: https://github.com/alparius/terraform-aws-apigateway-with-cors/releases
-
 # Terraform AWS API Gateway with CORS Enabled
 
-An opinionated Terraform module for the AWS provider, creating a CORS-enabled API Gateway for a Lambda function. It creates the required resources for the Lambda function to be called through the API Gateway, as well as the OPTIONS method, to bypass the Cross-Origin Resource Sharing policies of your browser, thus allowing your Lambda function to be called by other resources.
+An opinionated Terraform module for the AWS provider, creating a CORS-enabled API Gateway for a Lambda function.
+
+It creates the required resources for the Lambda function to be called through the API Gateway, as well as the OPTIONS method, to bypass the Cross-Origin Resource Sharing policies of your browser, thus allowing your Lambda function to be called by other resources.
+
 
 ## Usage
 
 ``` hcl
-module "cors" {
+module "apigateway_with_cors" {
   source = "alparius/apigateway-with-cors/aws"
   version = "0.1.0"
 
@@ -18,15 +17,10 @@ module "cors" {
 }
 ```
 
-## Outputs
 
-#### `lambda_url`
-- **Description**: The public URL pointing to your lambda function. Don't forget to append the 'path_part'.
+## Inputs
 
-
-## Configuration
-
-The following variables can be provided:
+The following input variables can be provided:
 
 ### Required
 
@@ -59,3 +53,9 @@ The following variables can be provided:
 #### `http_method`
 - **Description**: The HTTP method (GET, POST, PUT, DELETE, HEAD, OPTIONS, ANY).
 - **Default**: `GET`
+
+
+## Outputs
+
+#### `lambda_url`
+- **Description**: The public URL pointing to your lambda function. Don't forget to append the 'path_part'.
