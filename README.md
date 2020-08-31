@@ -44,10 +44,10 @@ module "apigateway_with_cors" {
   lambda_function_name = aws_lambda_function.my_lambda.function_name
   lambda_invoke_arn    = aws_lambda_function.my_lambda.invoke_arn
   
-  request_parameters = { "method.request.querystring.number" = true }
+  request_parameters = { "method.request.querystring.myParam" = true }
   request_templates  = {
     "application/json" = <<EOF
-    { "number" : "$input.params('number')" }
+    { "myParam" : "$input.params('myParam')" }
     EOF
   }
 }
