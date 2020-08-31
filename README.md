@@ -17,7 +17,7 @@ It creates the required resources for the Lambda function to be called through t
 ``` hcl
 module "apigateway_with_cors" {
   source  = "alparius/apigateway-with-cors/aws"
-  version = "0.3.0"
+  version = "0.3.1"
 
   lambda_function_name = aws_lambda_function.<your_lambda_function>.function_name
   lambda_invoke_arn    = aws_lambda_function.<your_lambda_function>.invoke_arn 
@@ -39,7 +39,7 @@ resource "aws_lambda_function" "my_lambda" {
 
 module "apigateway_with_cors" {
   source  = "alparius/apigateway-with-cors/aws"
-  version = "0.3.0"
+  version = "0.3.1"
 
   lambda_function_name = aws_lambda_function.my_lambda.function_name
   lambda_invoke_arn    = aws_lambda_function.my_lambda.invoke_arn

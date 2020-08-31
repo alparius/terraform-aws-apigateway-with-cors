@@ -52,7 +52,9 @@ resource "aws_api_gateway_method_response" "main_method_200" {
   }
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
   }
 }
 
@@ -81,6 +83,8 @@ resource "aws_api_gateway_integration_response" "method_integration_200" {
   status_code = aws_api_gateway_method_response.main_method_200.status_code
 
   response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
 
@@ -157,34 +161,15 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
 
 
 # ------------------------------------------------------------------
-# spam protection, and at last, deployment
+# at last, deployment
 # ------------------------------------------------------------------
 
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.apigateway.id
+  stage_name = var.stage_name
 
   depends_on = [
     aws_api_gateway_integration.method_integration,
     aws_api_gateway_integration.options_integration
   ]
-}
-
-
-resource "aws_api_gateway_stage" "main_method_stage" {
-  stage_name = var.stage_name
-  rest_api_id = aws_api_gateway_rest_api.apigateway.id
-  deployment_id = aws_api_gateway_deployment.deployment.id
-}
-
-
-resource "aws_api_gateway_method_settings" "main_method_settings" {
-  rest_api_id = aws_api_gateway_rest_api.apigateway.id
-  stage_name = aws_api_gateway_stage.main_method_stage.stage_name
-  
-  method_path = "*/*"
-
-  settings {
-    throttling_rate_limit = 5
-    throttling_burst_limit = 10
-  }
 }
