@@ -12,20 +12,33 @@ variable "lambda_invoke_arn" {
   type        = string
 }
 
+
 # ------------------------------------------------------------------
 # API Gateway variables, optional
 # ------------------------------------------------------------------
 
-variable "apigw_name" {
-  description = "Name of the API Gateway to be created."
+variable "http_method" {
+  description = "The HTTP method (GET, POST, PUT, DELETE, HEAD, OPTIONS, ANY)."
   type        = string
-  default     = "apigateway"
+  default     = "GET"
 }
 
-variable "apigw_description" {
-  description = "Description of the API Gateway to be created."
+variable "path_part" {
+  description = "The last path segment of the API resource. The default '{proxy+}' matches everything."
   type        = string
-  default     = "created by module alparius/apigateway-with-cors"
+  default     = "{proxy+}"
+}
+
+variable "request_parameters" {
+  description = "Parameters of the method call. Query strings, for example."
+  type        = map
+  default     = {}
+}
+
+variable "request_templates" {
+  description = "Mapping of the request parameters of the method call."
+  type        = map
+  default     = {}
 }
 
 variable "stage_name" {
@@ -34,14 +47,3 @@ variable "stage_name" {
   default     = "default"
 }
 
-variable "path_part" {
-  description = "The last path segment of the API resource. The default matches everything."
-  type        = string
-  default     = "{proxy+}"
-}
-
-variable "http_method" {
-  description = "The HTTP method (GET, POST, PUT, DELETE, HEAD, OPTIONS, ANY)."
-  type        = string
-  default     = "GET"
-}

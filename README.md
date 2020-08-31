@@ -17,7 +17,7 @@ It creates the required resources for the Lambda function to be called through t
 ``` hcl
 module "apigateway_with_cors" {
   source  = "alparius/apigateway-with-cors/aws"
-  version = "0.2.0"
+  version = "0.3.0"
 
   lambda_function_name = aws_lambda_function.<your_lambda_function>.function_name
   lambda_invoke_arn    = aws_lambda_function.<your_lambda_function>.invoke_arn 
@@ -39,10 +39,17 @@ resource "aws_lambda_function" "my_lambda" {
 
 module "apigateway_with_cors" {
   source  = "alparius/apigateway-with-cors/aws"
-  version = "0.2.0"
+  version = "0.3.0"
 
   lambda_function_name = aws_lambda_function.my_lambda.function_name
   lambda_invoke_arn    = aws_lambda_function.my_lambda.invoke_arn
+  
+  request_parameters = { "method.request.querystring.number" = true }
+  request_templates  = {
+    "application/json" = <<EOF
+    { "number" : "$input.params('number')" }
+    EOF
+  }
 }
 ```
 
@@ -63,28 +70,28 @@ The following input variables can be provided:
 
 ### Optional
 
-#### `apigw_name`
-- **Description**: Name of the API Gateway to be created.
-- **Default**: `apigateway`
+#### `http_method`
+- **Description**: The HTTP method (GET, POST, PUT, DELETE, HEAD, OPTIONS, ANY).
+- **Default**: `GET`
 
-#### `apigw_description`
-- **Description**: Description of the API Gateway to be created.
-- **Default**: `created by module alparius/apigateway-with-cors`
+#### `path_part`
+- **Description**: The last path segment of the API resource. The default '{proxy+}' matches everything.
+- **Default**: `{proxy+}`
+
+#### `request_parameters`
+- **Description**: Parameters of the method call. Query strings, for example.
+- **Default**: `{}`
+
+#### `request_templates`
+- **Description**: Mapping of the request parameters of the method call.
+- **Default**: `{}`
 
 #### `stage_name`
 - **Description**: The name of the stage. Part of the API resource's path.
 - **Default**: `default`
 
-#### `path_part`
-- **Description**: The last path segment of the API resource. The default matches everything.
-- **Default**: `{proxy+}`
-
-#### `http_method`
-- **Description**: The HTTP method (GET, POST, PUT, DELETE, HEAD, OPTIONS, ANY).
-- **Default**: `GET`
-
 
 ## Outputs
 
 #### `lambda_url`
-- **Description**: The public URL pointing to your lambda function. Don't forget to append the 'path_part'.
+- **Description**: The public URL pointing to your lambda function. If 'path_part' is left as default, it will match everything.
